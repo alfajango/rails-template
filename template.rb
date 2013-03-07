@@ -649,10 +649,8 @@ after_bundler do
       raise "aborted at user's request"
     end
   end
-  inside(destination_root()) do
-    run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
-    run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
-  end
+  run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
+  run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
@@ -1147,9 +1145,7 @@ RUBY
     copy_from_repo 'config/initializers/omniauth.rb', :repo => repo
     gsub_file 'config/initializers/omniauth.rb', /twitter/, prefs[:omniauth_provider] unless prefer :omniauth_provider, 'twitter'
     generate 'model User name:string email:string provider:string uid:string' unless prefer :orm, 'mongoid'
-    inside(destination_root()) do
-      run 'bundle exec rake db:migrate' unless prefer :orm, 'mongoid'
-    end
+    run 'bundle exec rake db:migrate' unless prefer :orm, 'mongoid'
     copy_from_repo 'app/models/user.rb', :repo => repo  # copy the User model (Mongoid version)
     unless prefer :orm, 'mongoid'
       ## OMNIAUTH AND ACTIVE RECORD
@@ -1742,12 +1738,10 @@ end
 # >-----------------------------[ Run 'Bundle Install' ]-------------------------------<
 
 say_wizard "Installing gems. This will take a while."
-inside(destination_root()) do
-  if prefs.has_key? :bundle_path
-    run "bundle install --without production --path #{prefs[:bundle_path]}"
-  else
-    run 'bundle install --without production'
-  end
+if prefs.has_key? :bundle_path
+  run "bundle install --without production --path #{prefs[:bundle_path]}"
+else
+  run 'bundle install --without production'
 end
 
 # >-----------------------------[ Run 'After Bundler' Callbacks ]-------------------------------<
