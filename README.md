@@ -35,6 +35,7 @@ it's advised to create the gemset ahead of time and then install rails
 and generate the app from the template while already using that gemset.
 
 ```
+rvm gemset create my_app
 rvm gemset use my_app
 gem install rails
 rails new my_app -m https://raw.github.com/alfajango/rails-template/master/template.rb
