@@ -649,8 +649,7 @@ after_bundler do
       raise "aborted at user's request"
     end
   end
-  run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
-  run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
+  run 'bundle exec rake db:create'
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
