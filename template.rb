@@ -466,6 +466,7 @@ end
 
 ## Database Adapter
 gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
+gsub_file 'Gemfile', /(gem 'sqlite3'\n)/, "\\1gem 'activerecord-sqlite3-adapter'\n" if prefer :database, 'sqlite'
 gem 'mongoid', '>= 3.0.19' if prefer :orm, 'mongoid'
 unless File.open('Gemfile').lines.any?{|line| line.include?('pg')}
   gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
@@ -1419,35 +1420,37 @@ after_everything do
     when 'mandrill'
       credentials = "MANDRILL_USERNAME: Your_Username\nMANDRILL_API_KEY: Your_API_Key\n"
   end
-  append_file 'config/application.yml', credentials
-  ## DEFAULT USER
-  append_file 'config/application.yml' do <<-FILE
+  if prefs[:local_env_file]
+    append_file 'config/application.yml', credentials
+    ## DEFAULT USER
+    append_file 'config/application.yml' do <<-FILE
 ADMIN_NAME: First User
 ADMIN_EMAIL: user@example.com
 ADMIN_PASSWORD: changeme
 FILE
-  end
-  ## AUTHENTICATION
-  if prefer :authentication, 'omniauth'
-    append_file 'config/application.yml' do <<-FILE
+    end
+    ## AUTHENTICATION
+    if prefer :authentication, 'omniauth'
+      append_file 'config/application.yml' do <<-FILE
 OMNIAUTH_PROVIDER_KEY: Your_OmniAuth_Provider_Key
 OMNIAUTH_PROVIDER_SECRET: Your_OmniAuth_Provider_Secret
 FILE
+      end
     end
-  end
-  ## AUTHORIZATION
-  if (prefer :authorization, 'cancan')
-    append_file 'config/application.yml', "ROLES: [admin, user, VIP]\n"
-  end
-  ### SUBDOMAINS ###
-  copy_from_repo 'config/application.yml', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
-  ### APPLICATION.EXAMPLE.YML ###
-  copy_file destination_root + '/config/application.yml', destination_root + '/config/application.example.yml'
-  ### DATABASE SEED ###
-  append_file 'db/seeds.rb' do <<-FILE
+    ## AUTHORIZATION
+    if (prefer :authorization, 'cancan')
+      append_file 'config/application.yml', "ROLES: [admin, user, VIP]\n"
+    end
+    ### SUBDOMAINS ###
+    copy_from_repo 'config/application.yml', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
+    ### APPLICATION.EXAMPLE.YML ###
+    copy_file destination_root + '/config/application.yml', destination_root + '/config/application.example.yml'
+    ### DATABASE SEED ###
+    append_file 'db/seeds.rb' do <<-FILE
 # Environment variables (ENV['...']) are set in the file config/application.yml.
 # See http://railsapps.github.com/rails-environment-variables.html
 FILE
+    end
   end
   if (prefer :authorization, 'cancan')
     unless prefer :orm, 'mongoid'
