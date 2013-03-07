@@ -433,7 +433,7 @@ after_everything do
   gsub_file "README.textile", /Authorization: None/, "Authorization: CanCan" if prefer :authorization, 'cancan'
 
   # Admin
-  append_file "README.textile", "\n h2. Admin\n\n Admin: ActiveAdmin" if prefer :admin, 'active_admin'
+  append_file "README.textile", "\n h2. Admin\n\n Admin: ActiveAdmin" if prefer :admin, 'activeadmin'
   append_file "README.textile", "\n h2. Admin\n\n Admin: RailsAdmin" if prefer :admin, 'rails_admin'
 
   git :add => '-A' if prefer :git, true
@@ -585,7 +585,7 @@ if prefer :railsapps, 'rails-prelaunch-signup'
 end
 
 ## Admin
-if prefer :admin, 'active_admin'
+if prefer :admin, 'activeadmin'
   gem 'activeadmin'
 end
 if prefer :admin, 'rails_admin'
@@ -689,7 +689,7 @@ FILE
     end
   end
   ## Admin Gem
-  if prefer :admin, 'active_admin'
+  if prefer :admin, 'activeadmin'
     say_wizard "recipe installing active_admin"
     generate 'active_admin:install'
   end
