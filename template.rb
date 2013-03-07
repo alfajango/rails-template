@@ -222,6 +222,7 @@ HOST_OS = RbConfig::CONFIG['host_os']
 say_wizard "Your operating system is #{HOST_OS}."
 say_wizard "You are using Ruby version #{RUBY_VERSION}."
 say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
+say_wizard "Your app directory is #{destination_root()}."
 
 ## Is sqlite3 in the Gemfile?
 gemfile = File.read(destination_root() + '/Gemfile')
@@ -474,7 +475,6 @@ end
 
 ## Database Adapter
 gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
-gem 'activerecord-sqlite3-adapter' if prefer(:database, 'sqlite') && !prefer(:orm, 'mongoid')
 gem 'mongoid', '>= 3.0.19' if prefer :orm, 'mongoid'
 unless File.open('Gemfile').lines.any?{|line| line.include?('pg')}
   gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
@@ -649,8 +649,10 @@ after_bundler do
       raise "aborted at user's request"
     end
   end
-  run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
-  run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
+  inside(destination_root()) do
+    run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
+    run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
+  end
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
@@ -1145,7 +1147,9 @@ RUBY
     copy_from_repo 'config/initializers/omniauth.rb', :repo => repo
     gsub_file 'config/initializers/omniauth.rb', /twitter/, prefs[:omniauth_provider] unless prefer :omniauth_provider, 'twitter'
     generate 'model User name:string email:string provider:string uid:string' unless prefer :orm, 'mongoid'
-    run 'bundle exec rake db:migrate' unless prefer :orm, 'mongoid'
+    inside(destination_root()) do
+      run 'bundle exec rake db:migrate' unless prefer :orm, 'mongoid'
+    end
     copy_from_repo 'app/models/user.rb', :repo => repo  # copy the User model (Mongoid version)
     unless prefer :orm, 'mongoid'
       ## OMNIAUTH AND ACTIVE RECORD
@@ -1738,10 +1742,12 @@ end
 # >-----------------------------[ Run 'Bundle Install' ]-------------------------------<
 
 say_wizard "Installing gems. This will take a while."
-if prefs.has_key? :bundle_path
-  run "bundle install --without production --path #{prefs[:bundle_path]}"
-else
-  run 'bundle install --without production'
+inside(destination_root()) do
+  if prefs.has_key? :bundle_path
+    run "bundle install --without production --path #{prefs[:bundle_path]}"
+  else
+    run 'bundle install --without production'
+  end
 end
 
 # >-----------------------------[ Run 'After Bundler' Callbacks ]-------------------------------<
