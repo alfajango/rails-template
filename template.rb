@@ -474,7 +474,7 @@ end
 
 ## Database Adapter
 gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
-gsub_file 'Gemfile', /(gem 'sqlite3'\n)/, "\\1gem 'activerecord-sqlite3-adapter'\n" if prefer :database, 'sqlite'
+gem 'activerecord-sqlite3-adapter' if prefer(:database, 'sqlite') && !prefer(:orm, 'mongoid')
 gem 'mongoid', '>= 3.0.19' if prefer :orm, 'mongoid'
 unless File.open('Gemfile').lines.any?{|line| line.include?('pg')}
   gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
