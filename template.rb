@@ -27,7 +27,7 @@ Rails.application.config.generators do |g|
 end
 RUBY
 
-@recipes = ["setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "routes", "frontend", "init", "extras"]
+@recipes = ["setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "routes", "frontend", "init", "extras", "admin"]
 @prefs = {}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["controllers", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"]]
@@ -340,6 +340,10 @@ if (recipes.include? 'models') && (recipes.include? 'controllers') && (recipes.i
   end
 end
 
+if (recipes.include? 'admin')
+  prefs[:admin] = multiple_choice "Install admin gem?", [["None", "none"], ["ActiveAdmin", "activeadmin"], ["RailsAdmin", "rails_admin"]]
+end
+
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
 append_file "README", "PREFERENCES\n#{prefs.inspect}"
@@ -426,6 +430,10 @@ after_everything do
   gsub_file "README.textile", /Authentication: None/, "Authentication: Devise" if prefer :authentication, 'devise'
   gsub_file "README.textile", /Authentication: None/, "Authentication: OmniAuth" if prefer :authentication, 'omniauth'
   gsub_file "README.textile", /Authorization: None/, "Authorization: CanCan" if prefer :authorization, 'cancan'
+
+  # Admin
+  append_file "README.textile", "\n h2. Admin\n\n Admin: ActiveAdmin" if prefer :admin, 'active_admin'
+  append_file "README.textile", "\n h2. Admin\n\n Admin: RailsAdmin" if prefer :admin, 'rails_admin'
 
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: add README files"' if prefer :git, true
@@ -576,6 +584,14 @@ if prefer :railsapps, 'rails-prelaunch-signup'
   gem 'jquery-datatables-rails', '>= 1.11.2'
 end
 
+## Admin
+if prefer :admin, 'active_admin'
+  gem 'activeadmin'
+end
+if prefer :admin, 'rails_admin'
+  gem 'rails_admin'
+end
+
 ## Gems from a defaults file or added interactively
 gems.each do |g|
   gem(*g)
@@ -669,6 +685,15 @@ after_bundler do
 # makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
 FILE
     end
+  end
+  ## Admin Gem
+  if prefer :admin, 'active_admin'
+    say_wizard "recipe installing active_admin"
+    generate 'active_admin:install'
+  end
+  if prefer :admin, 'rails_admin'
+    say_wizard "recipe installing rails_admin"
+    generate 'rails_admin:isntall'
   end
   ## Git
   git :add => '-A' if prefer :git, true
