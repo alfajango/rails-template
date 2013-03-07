@@ -1,0 +1,17 @@
+recipes:
+- setup
+- readme
+- gems
+- testing
+- email
+- models
+- controllers
+- views
+- routes
+- frontend
+- init
+- extras
+
+args:
+  :skip_test_unit: yes
+  :skip_active_record: false
