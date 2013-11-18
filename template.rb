@@ -541,7 +541,12 @@ gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'
 gem 'hominid', '>= 3.0.5' if prefer :email, 'mandrill'
 
 ## Authentication (Devise)
-gem 'devise', '>= 2.2.3' if prefer :authentication, 'devise'
+if prefer :authentication, 'devise'
+  gem 'devise', '>= 2.2.3'
+  # Needed for user.rb template that gets copied from the rails3 template
+  # TODO: Update rails3 template apps for rails4
+  gem 'protected_attributes' if Rails::VERSION::MAJOR.to_s == "4"
+end
 gem 'devise_invitable', '>= 1.1.5' if prefer :devise_modules, 'invitable'
 
 ## Authentication (OmniAuth)
