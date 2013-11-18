@@ -876,6 +876,13 @@ after_everything do
       copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
       copy_from_repo 'spec/controllers/users_controller_spec.rb', :repo => repo
       copy_from_repo 'spec/models/user_spec.rb', :repo => repo
+
+      say_wizard "copying Devise views to app views"
+      generate "devise:views"
+      if prefer :templates, 'haml'
+        say_wizard "converting Devise views to haml"
+        %x(for file in app/views/devise/**/*.erb; do bundle exec html2haml -e $file ${file%erb}haml && rm $file; done)
+      end
     end
     ## GIT
     git :add => '-A' if prefer :git, true
