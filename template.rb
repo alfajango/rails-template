@@ -181,6 +181,8 @@ end
 
 # this application template only supports Rails version 3.1 and newer
 case Rails::VERSION::MAJOR.to_s
+when "4"
+  # Do nothing we're fine
 when "3"
   case Rails::VERSION::MINOR.to_s
   when "0"
@@ -581,7 +583,11 @@ end
 
 ## Admin
 if prefer :admin, 'activeadmin'
-  gem 'activeadmin'
+  if Rails::VERSION::MAJOR.to_s == "4"
+    gem 'activeadmin', github: 'gregbell/active_admin'
+  else
+    gem 'activeadmin'
+  end
 end
 if prefer :admin, 'rails_admin'
   gem 'rails_admin'
