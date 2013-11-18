@@ -526,8 +526,14 @@ gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
 ## Front-end Framework
 gem 'bootstrap-sass', '>= 2.2.2.0' if prefer :bootstrap, 'sass'
-gem 'compass-rails', '>= 1.0.3' if prefer :frontend, 'foundation'
-gem 'zurb-foundation', '>= 3.2.5' if prefer :frontend, 'foundation'
+if prefer :frontend, 'foundation'
+  if Rails::VERSION::MAJOR.to_s == "4"
+    gem 'compass-rails', '~> 2.0.alpha.0'
+  else
+    gem 'compass-rails', '>= 1.0.3'
+  end
+  gem 'zurb-foundation', '>= 3.2.5'
+end
 if prefer :bootstrap, 'less'
   gem 'less-rails', '>= 2.2.6'
   gem 'twitter-bootstrap-rails', '>= 2.1.8'
