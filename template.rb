@@ -526,14 +526,14 @@ gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
 ## Front-end Framework
 gem 'bootstrap-sass', '>= 2.2.2.0' if prefer :bootstrap, 'sass'
-gem 'compass-rails', '>= 1.0.3', :group => :assets if prefer :frontend, 'foundation'
-gem 'zurb-foundation', '>= 3.2.5', :group => :assets if prefer :frontend, 'foundation'
+gem 'compass-rails', '>= 1.0.3' if prefer :frontend, 'foundation'
+gem 'zurb-foundation', '>= 3.2.5' if prefer :frontend, 'foundation'
 if prefer :bootstrap, 'less'
-  gem 'less-rails', '>= 2.2.6', :group => :assets
-  gem 'twitter-bootstrap-rails', '>= 2.1.8', :group => :assets
+  gem 'less-rails', '>= 2.2.6'
+  gem 'twitter-bootstrap-rails', '>= 2.1.8'
   # install gem 'therubyracer' to use Less
   gem 'libv8', '>= 3.11.8'
-  gem 'therubyracer', '>= 0.11.3', :group => :assets, :platform => :ruby, :require => 'v8'
+  gem 'therubyracer', '>= 0.11.3', :platform => :ruby, :require => 'v8'
 end
 
 ## Email
@@ -1621,7 +1621,7 @@ case RbConfig::CONFIG['host_os']
       unless prefer :bootstrap, 'less'
         say_wizard "recipe adding 'therubyracer' JavaScript runtime gem"
         gem 'libv8', '>= 3.11.8'
-        gem 'therubyracer', '>= 0.11.3', :group => :assets, :platform => :ruby, :require => 'v8'
+        gem 'therubyracer', '>= 0.11.3', :platform => :ruby, :require => 'v8'
       end
     end
 end
