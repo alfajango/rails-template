@@ -670,6 +670,9 @@ after_bundler do
     if prefer :frontend, 'bootstrap'
       say_wizard "recipe installing simple_form for use with Twitter Bootstrap"
       generate 'simple_form:install --bootstrap'
+    elsif prefer :frontend, 'foundation'
+      say_wizard "recipe installing simple_form for use with Zurb Foundation"
+      generate 'simple_form:install --foundation'
     else
       say_wizard "recipe installing simple_form"
       generate 'simple_form:install'
