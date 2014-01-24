@@ -1576,7 +1576,7 @@ say_recipe 'extras'
 
 config = {}
 config['quiet_assets'] = yes_wizard?("Reduce assets logger noise during development?") if true && true unless config.key?('quiet_assets') || prefs.has_key?(:quiet_assets)
-config['local_env_file'] = yes_wizard?("Use application.yml file for environment variables?") if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
+config['local_env_file'] = yes_wizard?("Use application.yml file with the Figaro gem for environment variables?") if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
 config['better_errors'] = yes_wizard?("Improve error reporting with 'better_errors' during development?") if true && true unless config.key?('better_errors') || prefs.has_key?(:better_errors)
 config['ban_spiders'] = yes_wizard?("Set a robots.txt file to ban spiders?") if true && true unless config.key?('ban_spiders') || prefs.has_key?(:ban_spiders)
 config['rvmrc'] = yes_wizard?("Create a project-specific rvm gemset and .ruby-gemset file?") if true && true unless config.key?('rvmrc') || prefs.has_key?(:rvmrc)
