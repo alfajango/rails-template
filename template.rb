@@ -95,7 +95,7 @@ def copy_from(source, destination)
 end
 
 def copy_from_repo(filename, opts = {})
-  repo = 'https://raw.github.com/RailsApps/rails-composer/master/files/'
+  repo = 'https://raw.github.com/alfajango/rails-composer/alfajango/files/'
   repo = opts[:repo] unless opts[:repo].nil?
   if (!opts[:prefs].nil?) && (!prefs.has_value? opts[:prefs])
     return
@@ -1579,7 +1579,7 @@ config['quiet_assets'] = yes_wizard?("Reduce assets logger noise during developm
 config['local_env_file'] = yes_wizard?("Use application.yml file for environment variables?") if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
 config['better_errors'] = yes_wizard?("Improve error reporting with 'better_errors' during development?") if true && true unless config.key?('better_errors') || prefs.has_key?(:better_errors)
 config['ban_spiders'] = yes_wizard?("Set a robots.txt file to ban spiders?") if true && true unless config.key?('ban_spiders') || prefs.has_key?(:ban_spiders)
-config['rvmrc'] = yes_wizard?("Create a project-specific rvm gemset and .rvmrc?") if true && true unless config.key?('rvmrc') || prefs.has_key?(:rvmrc)
+config['rvmrc'] = yes_wizard?("Create a project-specific rvm gemset and .ruby-gemset file?") if true && true unless config.key?('rvmrc') || prefs.has_key?(:rvmrc)
 config['github'] = yes_wizard?("Create a GitHub repository?") if true && true unless config.key?('github') || prefs.has_key?(:github)
 @configs[@current_recipe] = config
 
@@ -1646,7 +1646,7 @@ if config['rvmrc']
 end
 if prefs[:rvmrc]
   if which("rvm")
-    say_wizard "recipe creating project-specific rvm gemset and .rvmrc"
+    say_wizard "recipe creating project-specific rvm gemset and .ruby-gemset"
     # using the rvm Ruby API, see:
     # http://blog.thefrontiergroup.com.au/2010/12/a-brief-introduction-to-the-rvm-ruby-api/
     # https://rvm.io/integration/passenger
@@ -1681,8 +1681,9 @@ if prefs[:rvmrc]
       raise
     end
     run "rvm gemset list"
-    copy_from_repo '.rvmrc'
-    gsub_file '.rvmrc', /App_Name/, "#{app_name}"
+    copy_from_repo '.ruby-version'
+    copy_from_repo '.ruby-gemset'
+    gsub_file '.ruby-gemset', /App_Name/, "#{app_name}"
   else
     say_wizard "WARNING! RVM does not appear to be available."
   end
