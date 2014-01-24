@@ -376,9 +376,7 @@ after_everything do
 
   # add placeholder READMEs and humans.txt file
   copy_from_repo 'public/humans.txt'
-  copy_from_repo 'README'
   copy_from_repo 'README.textile'
-  gsub_file "README", /App_Name/, "#{app_name.humanize.titleize}"
   gsub_file "README.textile", /App_Name/, "#{app_name.humanize.titleize}"
 
   # Diagnostics
@@ -386,8 +384,6 @@ after_everything do
   gsub_file "README.textile", /preferences that are known/, "preferences that are NOT known" if diagnostics[:prefs] == 'fail'
   gsub_file "README.textile", /RECIPES/, recipes.sort.inspect
   gsub_file "README.textile", /PREFERENCES/, prefs.inspect
-  gsub_file "README", /RECIPES/, recipes.sort.inspect
-  gsub_file "README", /PREFERENCES/, prefs.inspect
   
   # Ruby on Rails
   gsub_file "README.textile", /\* Ruby/, "* Ruby version #{RUBY_VERSION}"
