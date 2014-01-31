@@ -314,7 +314,7 @@ if prefer :git, true
   copy_from 'https://raw.github.com/RailsApps/rails-composer/master/files/gitignore.txt', '.gitignore'
   git :init
   git :add => '-A'
-  git :commit => '-qm "rails_apps_composer: initial commit"'
+  git :commit => '-qm "Initial commit."'
 else
   after_everything do
     say_wizard "removing .gitignore and .gitkeep files"
@@ -863,7 +863,7 @@ after_everything do
   gsub_file "README.md", /Admin: None/, "Admin: RailsAdmin" if prefer :admin, 'rails_admin'
 
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: add README files"' if prefer :git, true
+  git :commit => '-qm "Generated README files."' if prefer :git, true
 
 end # after_everything
 # >---------------------------- recipes/readme.rb ----------------------------end<
@@ -1047,7 +1047,7 @@ end
 
 ## Git
 git :add => '-A' if prefer :git, true
-git :commit => '-qm "rails_apps_composer: Gemfile"' if prefer :git, true
+git :commit => '-qm "Gemfile created."' if prefer :git, true
 
 ### CREATE DATABASE ###
 after_bundler do
@@ -1107,7 +1107,7 @@ after_bundler do
     run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
     ## Git
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
+    git :commit => '-qm "Configured and created database."' if prefer :git, true
   end
 end # after_bundler
 
@@ -1129,6 +1129,9 @@ after_bundler do
         say_wizard "recipe installing simple_form"
         generate 'simple_form:install'
     end
+    ## Git
+    git :add => '-A' if prefer :git, true
+    git :commit => '-qm "SimpleForm generator run."' if prefer :git, true
   end
   ## Figaro Gem
   if prefer :local_env_file, 'figaro'
@@ -1170,7 +1173,7 @@ FILE
   end
   ## Git
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: generators"' if prefer :git, true
+  git :commit => '-qm "Local env file set up."' if prefer :git, true
 end # after_bundler
 # >----------------------------- recipes/gems.rb -----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1294,7 +1297,7 @@ RUBY
   end
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: testing framework"' if prefer :git, true
+  git :commit => '-qm "Testing framework set up."' if prefer :git, true
 end # after_bundler
 
 after_everything do
@@ -1352,7 +1355,7 @@ after_everything do
     end
     ## GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: rspec files"' if prefer :git, true
+    git :commit => '-qm "RSpec files set up."' if prefer :git, true
   end
   ### CUCUMBER ###
   if prefer :integration, 'cucumber'
@@ -1422,7 +1425,7 @@ RUBY
     end
     ## GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: cucumber files"' if prefer :git, true
+    git :commit => '-qm "Cucumber files set up."' if prefer :git, true
   end
   ### FABRICATION ###
   if prefer :fixtures, 'fabrication'
@@ -1570,7 +1573,7 @@ TEXT
   end
   ### GIT
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: set email accounts"' if prefer :git, true
+  git :commit => '-qm "Set email account configuration."' if prefer :git, true
 end # after_bundler
 # >---------------------------- recipes/email.rb -----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1680,7 +1683,7 @@ RUBY
   end
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: models"' if prefer :git, true
+  git :commit => '-qm "Models set up."' if prefer :git, true
 end # after_bundler
 # >---------------------------- recipes/models.rb ----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1756,7 +1759,7 @@ RUBY
   copy_from_repo 'app/controllers/profiles_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: controllers"' if prefer :git, true
+  git :commit => '-qm "Controllers set up."' if prefer :git, true
 end # after_bundler
 # >------------------------- recipes/controllers.rb --------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1814,7 +1817,7 @@ after_bundler do
   copy_from_repo 'app/views/profiles/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: views"' if prefer :git, true
+  git :commit => '-qm "Views set up."' if prefer :git, true
 end # after_bundler
 # >---------------------------- recipes/views.rb -----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1860,7 +1863,7 @@ after_bundler do
   gsub_file 'config/routes.rb', /^.*.routes.draw do/, "#{app_const}.routes.draw do"
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: routes"' if prefer :git, true
+  git :commit => '-qm "Routes set up."' if prefer :git, true
 end # after_bundler
 # >---------------------------- recipes/routes.rb ----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -1903,7 +1906,7 @@ after_bundler do
 
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: front-end framework"' if prefer :git, true
+  git :commit => "-qm 'Front-end framework set up using #{prefs[:frontend]}.'" if prefer :git, true
 end # after_bundler
 
 after_everything do
@@ -1922,7 +1925,7 @@ after_everything do
 
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: navigation links"' if prefer :git, true
+  git :commit => '-qm "Navigation links set up."' if prefer :git, true
 end # after_everything
 # >--------------------------- recipes/frontend.rb ---------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -2117,7 +2120,7 @@ FILE
   end
   ### GIT ###
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: set up database"' if prefer :git, true
+  git :commit => '-qm "Database set up."' if prefer :git, true
 end # after_everything
 # >----------------------------- recipes/init.rb -----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -2166,7 +2169,7 @@ if prefer :apps4, 'learn-rails'
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes."' if prefer :git, true
 
     # >-------------------------------[ Models ]--------------------------------<
 
@@ -2210,7 +2213,7 @@ if prefer :apps4, 'learn-rails'
 
     ### GIT ###
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: learn-rails app"' if prefer :git, true
+    git :commit => '-qm "Learn-rails starter app set up."' if prefer :git, true
   end # after_bundler
 end # learn-rails
 
@@ -2240,7 +2243,7 @@ if (prefer :apps4, 'rails-bootstrap') || (prefer :apps4, 'rails-foundation')
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes."' if prefer :git, true
 
     # >-------------------------------[ Models ]--------------------------------<
 
@@ -2275,8 +2278,8 @@ if (prefer :apps4, 'rails-bootstrap') || (prefer :apps4, 'rails-foundation')
     ### GIT ###
     if prefer :git, true
       git :add => '-A'
-      git :commit => '-qm "rails_apps_composer: rails-bootstrap app"' if prefer :apps4, 'rails-bootstrap'
-      git :commit => '-qm "rails_apps_composer: rails-foundation app"' if prefer :apps4, 'rails-foundation'
+      git :commit => '-qm "Rails-bootstrap app set up."' if prefer :apps4, 'rails-bootstrap'
+      git :commit => '-qm "Rails-foundation app set up."' if prefer :apps4, 'rails-foundation'
     end
   end # after_bundler
 end # rails-bootstrap
@@ -2333,11 +2336,11 @@ if prefer :apps4, 'rails-devise'
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes."' if prefer :git, true
 
     ### GIT ###
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: learn-rails app"' if prefer :git, true
+    git :commit => '-qm "Learn-rails app set up."' if prefer :git, true
 
   end # after_bundler
 end # rails-devise
@@ -2376,7 +2379,7 @@ if prefer :railsapps, 'rails-prelaunch-signup'
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes, remove unnecessary files."' if prefer :git, true
 
     # >-------------------------------[ Create a git branch ]--------------------------------<
     if prefer :git, true
@@ -2458,7 +2461,7 @@ if prefer :railsapps, 'rails-prelaunch-signup'
 
     ### GIT ###
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: prelaunch app"' if prefer :git, true
+    git :commit => '-qm "Prelaunch app set up."' if prefer :git, true
   end # after_bundler
 end # rails-prelaunch-signup
 # >-------------------------- recipes/prelaunch.rb ---------------------------end<
@@ -2496,7 +2499,7 @@ if prefer :railsapps, 'rails-stripe-membership-saas'
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes, removed unnecessary files."' if prefer :git, true
 
     # >-------------------------------[ Migrations ]--------------------------------<
     generate 'migration AddStripeToUsers customer_id:string last_4_digits:string'
@@ -2574,7 +2577,7 @@ if prefer :railsapps, 'rails-stripe-membership-saas'
 
     ### GIT ###
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: membership app"' if prefer :git, true
+    git :commit => '-qm "Membership app set up."' if prefer :git, true
   end # after_bundler
 end # rails-stripe-membership-saas
 
@@ -2599,7 +2602,7 @@ if prefer :railsapps, 'rails-recurly-subscription-saas'
     gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
     # GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
+    git :commit => '-qm "Clean up starter app Gemfile and routes, removed unnecessary files."' if prefer :git, true
 
     # >-------------------------------[ Migrations ]--------------------------------<
     generate 'migration AddRecurlyToUsers first_name:string last_name:string customer_id:string'
@@ -2677,7 +2680,7 @@ if prefer :railsapps, 'rails-recurly-subscription-saas'
 
     ### GIT ###
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: membership app"' if prefer :git, true
+    git :commit => '-qm "Membership app set up."' if prefer :git, true
   end # after_bundler
 end # rails-recurly-subscription-saas
 # >-------------------------- recipes/prelaunch.rb ---------------------------end<
@@ -2844,7 +2847,7 @@ after_everything do
   gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
   # GIT
   git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: extras"' if prefer :git, true
+  git :commit => '-qm "Cleaned up Gemfile and routes and removing unnecessary files."' if prefer :git, true
 end
 
 ## GITHUB
@@ -2913,7 +2916,7 @@ after_bundler do
   end
   ### GIT
   git :add => '-A' if prefer :git, true
-  git :commit => %Q(-qm "rails_apps_composer: installed #{prefs[:admin]}") if prefer :git, true
+  git :commit => %Q(-qm "Installed #{prefs[:admin]} for admin dashboard") if prefer :git, true
 end
 # >---------------------------- recipes/admin.rb -----------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
@@ -2970,7 +2973,7 @@ RUBY
     end
     ### GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: set up mailcatcher for development"' if prefer :git, true
+    git :commit => '-qm "Set up mailcatcher for development."' if prefer :git, true
   end
   if prefs[:mail_view]
     say_wizard "recipe installing mail_view"
@@ -3002,7 +3005,7 @@ RUBY
     inject_into_file 'config/routes.rb', "mount MailPreview => 'mail_view' if Rails.env.development?", :before => "end"
     ### GIT
     git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: set up mail_view for development"' if prefer :git, true
+    git :commit => '-qm "Set up mail_view for development."' if prefer :git, true
   end
 end
 # >-------------------------- recipes/email_dev.rb ---------------------------end<
