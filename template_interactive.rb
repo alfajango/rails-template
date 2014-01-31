@@ -2898,12 +2898,12 @@ end
 
 if prefer :admin, 'activeadmin'
   if rails_4?
-    gem 'activeadmin', github: 'gregbell/active_admin'
+    add_gem 'activeadmin', github: 'gregbell/active_admin'
   else
-    gem 'activeadmin'
+    add_gem 'activeadmin'
   end
 end
-gem 'rails_admin' if prefer :admin, 'rails_admin'
+add_gem 'rails_admin' if prefer :admin, 'rails_admin'
 
 after_bundler do
   if prefer :admin, 'activeadmin'
@@ -2940,12 +2940,12 @@ prefs[:mail_view] = true if config['mail_view']
 
 if prefs[:mailcatcher]
   if rails_4?
-    gem 'mailcatcher', github: 'sj26/mailcatcher', group: :development
+    add_gem 'mailcatcher', github: 'sj26/mailcatcher', group: :development
   else
-    gem 'mailcatcher', group: :development
+    add_gem 'mailcatcher', group: :development
   end
 end
-gem 'mail_view', group: :development if prefs[:mail_view]
+add_gem 'mail_view', group: :development if prefs[:mail_view]
 
 after_bundler do
   if prefs[:mailcatcher]
