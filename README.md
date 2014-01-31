@@ -21,3 +21,10 @@ Or, if you just want to use the template without cloning it locally:
 gem install rails
 rails new my_app -m https://raw.github.com/alfajango/rails-template/master/template.rb
 ```
+
+## Interactive
+
+The above commands will run the Alfa Jango new Rails app template with
+the default preferences configured in template_defaults.yml. To run the
+template interactively, instead use the template_interactive.rb file in
+the above commands.
